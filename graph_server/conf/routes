@@ -1,0 +1,29 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+
+GET           /graphs                                                          @controllers.Application.getAllGraphs
+POST          /graphs                                                          @controllers.Application.createGraph
+PUT           /graphs/:graphId                                                 @controllers.Application.update(graphId: String)
+GET           /graphs/:graphId                                                 @controllers.Application.findGraphById(graphId: String)
+DELETE        /graphs/:graphId                                                 @controllers.Application.delete(graphId: String)
+
+PUT           /graphs/:graphId/:edgeId/edge                                    @controllers.Application.updateEdge(graphId: String, edgeId: String)
+PUT           /graphs/:graphId/:nodeId/node                                    @controllers.Application.updateNode(graphId: String, nodeId: String)
+
+DELETE        /graphs/:graphId/:edgeId/edge                                    @controllers.Application.deleteEdge(graphId: String, edgeId: String)
+DELETE        /graphs/:graphId/node/:nodeId                                    @controllers.Application.deleteNode(graphId: String, nodeId: String)
+
+POST          /graphs/:graphId/edge                                            @controllers.Application.addEdge(graphId: String)
+POST          /graphs/:graphId/node                                            @controllers.Application.addNode(graphId: String)
+
+GET           /graphs/:graphId/:fromNodeLabel/:toNodeLabel/shortestPath        @controllers.Application.findShortestPath(graphId: String,fromNodeLabel: String,toNodeLabel: String)
+
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET           /assets/*file                                                    controllers.Assets.at(path="/public", file)
+
+    

@@ -1,0 +1,123 @@
+@(title: String,graphs: List[Graph] = List.empty)
+
+@main(title){
+
+  @if(graphs.nonEmpty){
+    <b>Graphs</b>
+    <br/>
+    <br/>
+    @Option(graphs).map { listOfGraphs =>
+      <table border="2" cellpadding="5" cellspacing="5">
+        <thead>
+          <tr>
+            <td> Id </td>
+            <td> Name </td>
+            <td> Nodes </td>
+            <td> Edges </td>
+            <td> Delete Graph</td>
+            <td> View Graph </td>
+            <td> Create Nodes </td>
+            <td> Create Edges </td>
+            <td> Compute Shortest Path</td>
+          </tr>
+        </thead>
+        <tbody>
+
+          @listOfGraphs.map { graph =>
+            <tr>
+              <td>@graph._id.getOrElse("")</td>
+              <td>@graph.name.getOrElse("")</td>
+              @if(graph.nodes.nonEmpty){
+                <td>
+                @Option(graph.nodes).map { nodes =>
+                  <table border="1" width="200px">
+                    <thead>
+                      <tr>
+                        <td> Id </td>
+                        <td> Type </td>
+                        <td> Label </td>
+                        <td> Edit </td>
+                        <td> Delete </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      @nodes.map { node =>
+                        <tr>
+                          <td>@node.nodeId.getOrElse("")</td>
+                          <td>@node.nodeType.getOrElse("")</td>
+                          <td>@node.label</td>
+                          <td><a href="@routes.Application.showEditNodeForm(graph._id.getOrElse(""),node.nodeId.getOrElse(""))"> Edit Node </a> </td>
+                          <td><a href="@routes.Application.deleteNode(graph._id.getOrElse("")+ " "+node.nodeId.getOrElse(""))"> Delete Node </a> </td>
+                        </tr>
+                      }
+
+                    </tbody>
+                  </table>
+                }
+                </td>
+              }else{
+                <td>Nodes not found</td>
+              }
+
+              @if(graph.edges.isDefined && graph.edges.get.nonEmpty){
+                <td>
+                @Option(graph.edges.get).map { edges =>
+                  <table border="1">
+                    <thead>
+                      <tr>
+                        <td> Id </td>
+                        <td> Type </td>
+                        <td> From Node </td>
+                        <td> To Node </td>
+                        <td> Weight </td>
+                        <td> Edit </td>
+                        <td> Delete </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      @edges.map { edge =>
+                        <tr>
+                          <td>@edge.edgeId.getOrElse("")</td>
+                          <td>@edge.edgeType.getOrElse("")</td>
+                          <td>@edge.fromNode</td>
+                          <td>@edge.toNode</td>
+                          <td>@edge.weight</td>
+                          <td><a href="@routes.Application.showEditEdgeForm(graph._id.getOrElse(""),edge.edgeId.getOrElse(""))"> Edit Edge </a> </td>
+                          <td><a href="@routes.Application.deleteEdge(graph._id.getOrElse("")+ " " +edge.edgeId.getOrElse(""))"> Delete Edge </a> </td>
+                        </tr>
+                      }
+
+                    </tbody>
+                  </table>
+                  <hr/>
+                }
+                </td>
+              } else{
+                <td>Edges not found</td>
+              }
+
+              <td><a href="@routes.Application.deleteGraph(graph._id.getOrElse(""))"> Delete Graph </a> </td>
+              <td><a href="@routes.Application.viewGraph(graph._id.getOrElse(""))"> View Graph </a> </td>
+              <td><a href="@routes.Application.showAddNodeForm(graph._id.getOrElse(""))"> Add Node </a> </td>
+              <td><a href="@routes.Application.showAddEdgeForm(graph._id.getOrElse(""))"> Add Edge  </a> </td>
+              <td><a href="@routes.Application.showShortestPathForm(graph._id.getOrElse(""))"> Find Shortest Path  </a> </td>
+            </tr>
+          }
+
+        </tbody>
+      </table>
+      <hr/>
+
+    }
+  } else{
+    <b> No graphs Found !!</b>
+  }
+
+  <br/>
+  <br/>
+  <a href="@routes.Application.index"> <b> Go Back </b> </a>
+
+
+}

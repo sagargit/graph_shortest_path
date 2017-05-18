@@ -1,0 +1,27 @@
+@(title: String, shortestPathForm: Form[ShortestPath],graphId: String, listOfNodes: List[Node], shortestPathResponse: Option[String] = None)
+
+@import helper._
+
+@main(title){
+
+  @if(shortestPathResponse.isEmpty){
+  @form(routes.Application.findShortestPath(graphId)){
+    @helper.select(
+      shortestPathForm("fromNode"),
+      options(listOfNodes.map(k => k.label)),
+      '_label -> "Source Node", '_default -> "-- Select node label --")
+    @helper.select(
+      shortestPathForm("toNode"),
+      options(listOfNodes.map(k => k.label)),
+      '_label -> "Destination Node", '_default -> "-- Select node label --")
+
+    <input type="submit" value="Find Shortest Path" >
+  }
+  } else{
+    <b>Result</b>
+    <br/>
+    <br>
+    @shortestPathResponse.get <br/>
+  }
+
+}

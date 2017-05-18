@@ -1,0 +1,25 @@
+@(title: String, nodeForm: Form[Node],graphId: String,nodeId: Option[String] = None, nodes: List[Node] = List.empty)
+
+@import helper._
+
+@main(title) {
+  @if(nodeId.isDefined){
+    @form(routes.Application.updateNode(graphId)){
+      @inputText(nodeForm("nodeId"), '_label -> "", 'hidden -> "hidden")
+      @helper.inputText(nodeForm("label"), '_label -> "Label")
+      @helper.inputText(nodeForm("nodeType"), '_label -> "Type")
+      <input type="submit" value="Update Node" >
+    }
+  } else{
+    @form(routes.Application.addNode(graphId)){
+      @inputText(nodeForm("nodeId"), '_label -> "", 'hidden -> "hidden")
+      @helper.inputText(nodeForm("label"), '_label -> "Label")
+      @helper.inputText(nodeForm("nodeType"), '_label -> "Type")
+      <input type="submit" value="Add Node" >
+    }
+  }
+
+  <br/>
+  <a href="@routes.Application.viewAllGraphs()"><b>Back</b> </a>
+
+}

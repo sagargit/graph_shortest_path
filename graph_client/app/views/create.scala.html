@@ -1,0 +1,77 @@
+@(graphForm: Form[Graph],
+        noOfNodes: Long = 0L,
+        noOfEdges: Long = 0L,
+        nodes: List[Node] = List.empty,
+        edges: List[Edge] = List.empty,
+        graphId: Option[String] = None)
+
+@import helper._
+
+@main("Create a Directed Graph") {
+
+    <h1>Create Graph</h1>
+
+  @form(routes.Application.createGraph(noOfNodes.toString,noOfEdges.toString,graphId.getOrElse("id"))) {
+      <br/>
+
+      @if(nodes.isEmpty && edges.isEmpty){
+          @inputText(graphForm("_id"), '_label -> "", 'hidden -> "hidden")
+          @inputText(graphForm("name"), '_label -> "Graph Name")
+          <br/>
+          <br/>
+        <h3>Nodes are to be created first</h3>
+        <br/>
+        @helper.repeat(graphForm("nodes"), min = noOfNodes.toInt) { nodesData =>
+          <b>Enter Node Record </b>
+            @inputText(nodesData("nodeId"), '_label -> "", 'hidden -> "hidden")
+          @helper.inputText(nodesData("label"), '_label -> "Label")
+          @helper.inputText(nodesData("nodeType"), '_label -> "Type")
+        }
+          <input type="submit" value="Create Graph" >
+      } else{
+
+          @inputText(graphForm("_id"), '_label -> "", 'hidden -> "hidden")
+          @inputText(graphForm("name"), '_label -> "Graph Name")
+
+              <br/>
+              @helper.repeat(graphForm("nodes"), min = noOfNodes.toInt) { nodesData =>
+                  <b>Enter Node Record </b>
+                  @inputText(nodesData("nodeId"), '_label -> "", 'hidden -> "hidden")
+                  @helper.inputText(nodesData("label"), '_label -> "Label")
+                  @helper.inputText(nodesData("nodeType"), '_label -> "Type")
+              }
+
+        <h2>Nodes have been successfully Inserted !!</h2>
+
+        <br/>
+
+      <h3>Insert Edges Now</h3>
+      @helper.repeat(graphForm("edges"), min = noOfEdges.toInt) { edgesData =>
+        <b>Enter Edge Record </b>
+          @inputText(edgesData("edgeId"), '_label -> "", 'hidden -> "hidden")
+        @helper.inputText(edgesData("edgeType"), '_label -> "Type")
+        @helper.select(
+            edgesData("fromNode"),
+          options(nodes.map(k => k.label)),
+          '_label -> "Source Node", '_default -> "-- Select node label --"
+        )
+        @helper.select(
+            edgesData("toNode"),
+          options(nodes.map(k => k.label)),
+          '_label -> "Destination Node", '_default -> "-- Select node label --"
+        )
+        @helper.inputText(edgesData("weight"), '_label -> "Weight of the Edge")
+      }
+
+    <br/>
+    <br/>
+      <input type="submit" value="Create Edges" >
+    }
+
+  }
+
+  <br/>
+  <a href="@routes.Application.index()"><b>Cancel Graph Creation</b> </a>
+
+
+}

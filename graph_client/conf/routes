@@ -1,0 +1,36 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET         /                                                           @controllers.Application.index
+POST        /construct                                                  @controllers.Application.constructGraph
+POST        /graph/:noOfNodes/:noOfEdges/:graphId/create                @controllers.Application.createGraph(noOfNodes: String,noOfEdges: String, graphId : String)
+GET         /graphs                                                     @controllers.Application.viewAllGraphs
+
+GET         /showEditNode/:graphId/:nodeId/nodes                        @controllers.Application.showEditNodeForm(graphId: String, nodeId: String)
+GET         /showEditEdge/:graphId/:edgeId/edges                        @controllers.Application.showEditEdgeForm(graphId: String, edgeId: String)
+
+GET         /showAddNode/:graphId                                       @controllers.Application.showAddNodeForm(graphId: String)
+GET         /showAddEdge/:graphId                                       @controllers.Application.showAddEdgeForm(graphId: String)
+
+POST        /updateNode/:graphId/node                                   @controllers.Application.updateNode(graphId: String)
+POST        /updateEdge/:graphId/edge                                   @controllers.Application.updateEdge(graphId: String)
+
+POST        /addNode/:graphId                                           @controllers.Application.addNode(graphId: String)
+POST        /addEdge/:graphId                                           @controllers.Application.addEdge(graphId: String)
+
+GET         /shortestPathForm/:graphId                                  @controllers.Application.showShortestPathForm(graphId: String)
+POST        /graph/:graphId/shortestPath/compute                        @controllers.Application.findShortestPath(graphId: String)
+
+GET         /removeNode/:graphIdAndNodeId/delete                        @controllers.Application.deleteNode(graphIdAndNodeId: String)
+GET         /removeEdge/:graphIdAndEdgeId/delete                        @controllers.Application.deleteEdge(graphIdAndEdgeId: String)
+
+GET         /graph/:graphId/delete                                      @controllers.Application.deleteGraph(graphId: String)
+GET         /graph/display/:graphId                                     @controllers.Application.viewGraph(graphId: String)
+
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                                               controllers.Assets.at(path="/public", file)
+

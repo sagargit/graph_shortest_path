@@ -1,0 +1,18 @@
+@(message: String,formOfNodesAndEdges: Form[NoOfEdgesAndNodes])
+@import helper._
+
+@main(message) {
+
+<b> Construct a New Graph </b>
+
+    @form(routes.Application.constructGraph()) {
+      @* @inputText(formOfNodesAndEdges("noOfEdges"), '_label -> "Insert the number of Edges") *@
+        @inputText(formOfNodesAndEdges("noOfNodes"), '_label -> "Insert the number of Nodes")
+        <input type="submit" value="Submit" >
+    }
+
+    <br/>
+    <a href="@routes.Application.viewAllGraphs()"><b>View All Graphs</b> </a>
+
+
+}

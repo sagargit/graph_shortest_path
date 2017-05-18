@@ -1,0 +1,52 @@
+@(title: String, edgeForm: Form[Edge],graphId: String,edgeId: Option[String] = None, nodes: List[Node] = List.empty)
+
+@import helper._
+
+@main(title) {
+
+  @if(edgeId.isDefined){
+    @form(routes.Application.updateEdge(graphId)){
+      @inputText(edgeForm("edgeId"), '_label -> "", 'hidden -> "hidden")
+      @helper.inputText(edgeForm("edgeType"), '_label -> "Edge Type")
+      @helper.select(
+        edgeForm("fromNode"),
+        options(nodes.map(k => k.label)),
+        '_label -> "Source Node", '_default -> "-- Select node label --"
+      )
+      @helper.select(
+        edgeForm("toNode"),
+        options(nodes.map(k => k.label)),
+        '_label -> "Destination Node", '_default -> "-- Select node label --"
+      )
+      @helper.inputText(edgeForm("weight"), '_label -> "Weight")
+
+      <input type="submit" value="Update Edge" >
+    }
+  } else{
+
+    @form(routes.Application.addEdge(graphId)){
+      @inputText(edgeForm("edgeId"), '_label -> "", 'hidden -> "hidden")
+      @helper.inputText(edgeForm("edgeType"), '_label -> "Edge Type")
+      @helper.select(
+        edgeForm("fromNode"),
+        options(nodes.map(k => k.label)),
+        '_label -> "Source Node", '_default -> "-- Select node label --"
+      )
+      @helper.select(
+        edgeForm("toNode"),
+        options(nodes.map(k => k.label)),
+        '_label -> "Destination Node", '_default -> "-- Select node label --"
+      )
+      @helper.inputText(edgeForm("weight"), '_label -> "Weight")
+
+      <input type="submit" value="Add Edge" >
+    }
+
+  }
+  <br/>
+  <a href="@routes.Application.viewAllGraphs()"><b>Back</b> </a>
+
+
+
+
+}
